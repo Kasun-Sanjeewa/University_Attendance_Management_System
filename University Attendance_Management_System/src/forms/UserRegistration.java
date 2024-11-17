@@ -4,13 +4,17 @@
  */
 package forms;
 
+import dao.ConnectionProvider;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import utility.BDUtility;
+import java.sql.Connection;
+import java.sql.*;
 
 /**
  *
@@ -54,14 +58,13 @@ public class UserRegistration extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jInternalFrame1 = new javax.swing.JInternalFrame();
         lblImage = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnRegister = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(850, 600));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(850, 600));
 
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         btnExit.setText("X");
@@ -79,6 +82,13 @@ public class UserRegistration extends javax.swing.JFrame {
         jLabel2.setText("Name");
 
         txtName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtName.setBorder(null);
+        txtName.setRequestFocusEnabled(false);
+        txtName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNameActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -87,24 +97,37 @@ public class UserRegistration extends javax.swing.JFrame {
         radioMale.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         radioMale.setForeground(new java.awt.Color(255, 255, 255));
         radioMale.setText("Male");
+        radioMale.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                radioMaleItemStateChanged(evt);
+            }
+        });
 
         radioFemale.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         radioFemale.setForeground(new java.awt.Color(255, 255, 255));
         radioFemale.setText("Female");
+        radioFemale.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                radioFemaleItemStateChanged(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Email");
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtEmail.setBorder(null);
 
         txtContact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtContact.setBorder(null);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Contact");
 
         txtAddress.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtAddress.setBorder(null);
         txtAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAddressActionPerformed(evt);
@@ -116,12 +139,14 @@ public class UserRegistration extends javax.swing.JFrame {
         jLabel6.setText("Address");
 
         txtState.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtState.setBorder(null);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("State");
 
         txtCountry.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCountry.setBorder(null);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -152,11 +177,21 @@ public class UserRegistration extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Clear");
+        btnClear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("Register");
+        btnRegister.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegister.setText("Register");
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -204,10 +239,10 @@ public class UserRegistration extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addGap(27, 27, 27)
                             .addComponent(txtAddress)))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34))
         );
@@ -252,8 +287,8 @@ public class UserRegistration extends javax.swing.JFrame {
                     .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(69, 69, 69)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
@@ -306,6 +341,127 @@ public class UserRegistration extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lblImageMouseClicked
 
+    private void radioMaleItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioMaleItemStateChanged
+       if(radioMale.isSelected()){
+           radioFemale.setSelected(false);
+       }
+    }//GEN-LAST:event_radioMaleItemStateChanged
+
+    private void radioFemaleItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioFemaleItemStateChanged
+        if(radioFemale.isSelected()){
+           radioMale.setSelected(false);
+       }
+    }//GEN-LAST:event_radioFemaleItemStateChanged
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+       clearForm();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        try {
+            String name = txtName.getText().toString();
+            String gender = "";
+            if (radioMale.isSelected()) {
+                gender = "Male";
+            } else if (radioFemale.isSelected()) {
+                gender = "Female";
+            }
+
+            String email = txtEmail.getText().toString();
+            String emailRegex = "^[A-Za-z0-9._-]+@[A-Za-z0-9.-]+$";
+            if (!email.matches(emailRegex)) {
+                JOptionPane.showMessageDialog(null, "Invalid Email.", "Invalid", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            String contact = txtContact.getText().toString();
+            String contactRegex = "\\d{5}";
+            if (!contact.matches(contactRegex)) {
+                JOptionPane.showMessageDialog(null, "Invalid contact number", "Invalid", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String address = txtAddress.getText().toString();
+            String state = txtState.getText().toString();
+            String country = txtCountry.getText().toString();
+            String uniqueRegId = "_" + System.nanoTime() + System.nanoTime() + System.nanoTime();
+
+            if (name.isEmpty() || email.isEmpty() || contact.isEmpty() || address.isEmpty() || state.isEmpty() || country.isEmpty() || uniqueRegId.isEmpty() || gender.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "One or more fields are empty.", "Field Empty", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            Connection connection = ConnectionProvider.getCon();
+            try {
+                Statement st = connection.createStatement();
+                ResultSet rs = st.executeQuery("select * from userdetails where email = '" + email.trim() + "'");
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Duplicate email.", "Duplicate", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, ex);
+            }
+
+            String imageName = saveImage(email);
+
+            String insertQuery = "INSERT into userdetails (name, gender, email, contact, address, state, country, uniqueregid, imagename) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+  
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, gender);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, contact);
+            preparedStatement.setString(5, address);
+            preparedStatement.setString(6, state);
+            preparedStatement.setString(7, country);
+            preparedStatement.setString(8, uniqueRegId);
+            preparedStatement.setString(9, imageName);
+
+            preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "User Registered Successfully");
+            clearForm();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnRegisterActionPerformed
+
+    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNameActionPerformed
+
+    private String saveImage(String email) {
+        if (originalImage != null && selectedFile != null) {
+            try {
+                String savePath = BDUtility.getPath("images\\");
+                String extension = BDUtility.getFileExtension(selectedFile.getName());
+                String imageName = email + "." + extension;
+                File saveFile = new File(savePath + imageName);
+                BufferedImage scaledImage = BDUtility.scaleImage(originalImage, ImageIO.read(selectedFile));
+                ImageIO.write(scaledImage, extension, saveFile);
+                return imageName;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    
+    private void clearForm() {
+        txtName.setText("");
+        txtEmail.setText("");
+        txtContact.setText("");
+        txtAddress.setText("");
+        txtState.setText("");
+        txtCountry.setText("");
+        radioMale.setSelected(false);
+        radioFemale.setSelected(false);
+        lblImage.setIcon(null);
+    }
     /**
      * @param args the command line arguments
      */
@@ -342,9 +498,9 @@ public class UserRegistration extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnRegister;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
