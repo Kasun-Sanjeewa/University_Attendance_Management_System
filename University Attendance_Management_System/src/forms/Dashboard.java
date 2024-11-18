@@ -19,7 +19,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
-        BDUtility.setImage(this, "images/DBG.jpg", 1366, 900);
+        BDUtility.setImage(this, "images/DBG.jpg", 1500, 900);
         this.getRootPane().setBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.BLACK));
     }
 
@@ -43,8 +43,8 @@ public class Dashboard extends javax.swing.JFrame {
         btnViewAttendance = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1369, 800));
-        setMinimumSize(new java.awt.Dimension(1369, 800));
+        setMaximumSize(new java.awt.Dimension(1500, 900));
+        setMinimumSize(new java.awt.Dimension(1500, 900));
         setUndecorated(true);
 
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
@@ -74,6 +74,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnViewUser.setMaximumSize(new java.awt.Dimension(119, 27));
         btnViewUser.setMinimumSize(new java.awt.Dimension(119, 27));
         btnViewUser.setPreferredSize(new java.awt.Dimension(119, 27));
+        btnViewUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewUserActionPerformed(evt);
+            }
+        });
 
         btnUpdateUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnUpdateUser.setText("Update User");
@@ -111,13 +116,13 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(btnViewUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnUpdateUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDeleteUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 959, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1136, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnMarkAttendance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnViewQRS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGenerateQR, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnViewAttendance, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48))
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,6 +159,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void btnRegisterUser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterUser1ActionPerformed
         BDUtility.openForm(UserRegistration.class.getSimpleName(), new UserRegistration());
     }//GEN-LAST:event_btnRegisterUser1ActionPerformed
+
+    private void btnViewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewUserActionPerformed
+        BDUtility.openForm(ViewUser.class.getSimpleName(), new ViewUser());
+    }//GEN-LAST:event_btnViewUserActionPerformed
 
     /**
      * @param args the command line arguments

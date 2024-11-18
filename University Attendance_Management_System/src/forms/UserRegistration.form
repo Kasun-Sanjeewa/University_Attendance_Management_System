@@ -145,12 +145,12 @@
                   </Group>
                   <Component id="jInternalFrame1" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnRegister" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                   <Component id="btnClear" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                  <Component id="btnRegister" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="52" max="32767" attributes="0"/>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -192,9 +192,10 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="2"/>
+          </Border>
         </Property>
-        <Property name="requestFocusEnabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNameActionPerformed"/>
@@ -256,7 +257,9 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="2"/>
+          </Border>
         </Property>
       </Properties>
     </Component>
@@ -266,9 +269,14 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="2"/>
+          </Border>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtContactActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -287,7 +295,9 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="2"/>
+          </Border>
         </Property>
       </Properties>
       <Events>
@@ -311,7 +321,9 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="2"/>
+          </Border>
         </Property>
       </Properties>
     </Component>
@@ -332,7 +344,9 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="null"/>
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder thickness="2"/>
+          </Border>
         </Property>
       </Properties>
     </Component>

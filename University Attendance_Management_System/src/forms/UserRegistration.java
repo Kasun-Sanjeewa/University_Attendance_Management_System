@@ -27,7 +27,7 @@ public class UserRegistration extends javax.swing.JFrame {
      */
     public UserRegistration() {
         initComponents();
-        BDUtility.setImage(this, "images/RUBG.jpg", 850, 600);
+        BDUtility.setImage(this, "images/RUBG.jpg", 850, 540);
     }
 
     /**
@@ -82,8 +82,7 @@ public class UserRegistration extends javax.swing.JFrame {
         jLabel2.setText("Name");
 
         txtName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtName.setBorder(null);
-        txtName.setRequestFocusEnabled(false);
+        txtName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         txtName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNameActionPerformed(evt);
@@ -117,17 +116,22 @@ public class UserRegistration extends javax.swing.JFrame {
         jLabel4.setText("Email");
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtEmail.setBorder(null);
+        txtEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         txtContact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtContact.setBorder(null);
+        txtContact.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        txtContact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContactActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Contact");
 
         txtAddress.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtAddress.setBorder(null);
+        txtAddress.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         txtAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAddressActionPerformed(evt);
@@ -139,14 +143,14 @@ public class UserRegistration extends javax.swing.JFrame {
         jLabel6.setText("Address");
 
         txtState.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtState.setBorder(null);
+        txtState.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("State");
 
         txtCountry.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtCountry.setBorder(null);
+        txtCountry.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -285,11 +289,11 @@ public class UserRegistration extends javax.swing.JFrame {
                             .addComponent(jLabel8)
                             .addComponent(txtCountry, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
@@ -375,7 +379,7 @@ public class UserRegistration extends javax.swing.JFrame {
             }
             
             String contact = txtContact.getText().toString();
-            String contactRegex = "\\d{5}";
+            String contactRegex = "\\d{10}";
             if (!contact.matches(contactRegex)) {
                 JOptionPane.showMessageDialog(null, "Invalid contact number", "Invalid", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -432,6 +436,10 @@ public class UserRegistration extends javax.swing.JFrame {
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
+
+    private void txtContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContactActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtContactActionPerformed
 
     private String saveImage(String email) {
         if (originalImage != null && selectedFile != null) {

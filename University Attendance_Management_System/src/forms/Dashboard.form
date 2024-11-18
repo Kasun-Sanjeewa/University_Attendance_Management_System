@@ -4,10 +4,10 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1369, 800]"/>
+      <Dimension value="[1500, 900]"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1369, 800]"/>
+      <Dimension value="[1500, 900]"/>
     </Property>
     <Property name="undecorated" type="boolean" value="true"/>
   </Properties>
@@ -43,14 +43,14 @@
                   <Component id="btnUpdateUser" max="32767" attributes="0"/>
                   <Component id="btnDeleteUser" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="959" max="32767" attributes="0"/>
+              <EmptySpace pref="1136" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnMarkAttendance" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnViewQRS" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnGenerateQR" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnViewAttendance" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -140,6 +140,9 @@
           <Dimension value="[119, 27]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewUserActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnUpdateUser">
       <Properties>
