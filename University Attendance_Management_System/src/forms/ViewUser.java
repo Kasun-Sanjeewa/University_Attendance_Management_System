@@ -5,11 +5,15 @@
 package forms;
 
 import dao.ConnectionProvider;
+import java.awt.Image;
+import java.io.File;
 import utility.BDUtility;
 import java.sql.*;
 import java.util.Objects;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -41,7 +45,7 @@ public class ViewUser extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         userTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        txtContact = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1100, 500));
@@ -97,14 +101,24 @@ public class ViewUser extends javax.swing.JFrame {
                 "ID", "Name", "Gender", "Email", "Contact", "Address", "State", "Country", "Registration ID", "Image Name"
             }
         ));
+        userTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(userTable);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Search");
 
-        txtContact.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txtContact.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtSearch.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,7 +136,7 @@ public class ViewUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
@@ -140,7 +154,7 @@ public class ViewUser extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,6 +184,36 @@ public class ViewUser extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_formComponentShown
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        try{
+            lblImage.setIcon(null);
+            fetchUser(txtSearch.getText().toString());
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
+        int index = userTable.getSelectedRow();
+        TableModel model = userTable.getModel();
+        String name = Objects.isNull(model.getValueAt(index, 9)) ? null : model.getValueAt(index, 9).toString();
+        if (!Objects.isNull(name)) {
+            String imagePath = BDUtility.getPath("/images" + File.separator + name);
+            File imageFile = new File(imagePath);
+            if (imageFile.exists()) {
+                ImageIcon icon = new ImageIcon(imagePath);
+                Image image = icon.getImage().getScaledInstance(322, 286, Image.SCALE_SMOOTH);
+                ImageIcon resizedIcon = new ImageIcon(image);
+                lblImage.setIcon(resizedIcon);
+            } else {
+                lblImage.setIcon(null);
+                JOptionPane.showMessageDialog(null, "Either image has been deleted or not found.", "Image not found", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            lblImage.setIcon(null);
+        }
+    }//GEN-LAST:event_userTableMouseClicked
     
     private void fetchUser(String searchText) throws Exception {
         DefaultTableModel model = (DefaultTableModel) userTable.getModel();
@@ -251,7 +295,7 @@ public class ViewUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblImage;
-    private javax.swing.JTextField txtContact;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 }
