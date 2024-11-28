@@ -60,6 +60,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnDeleteUser.setMaximumSize(new java.awt.Dimension(119, 27));
         btnDeleteUser.setMinimumSize(new java.awt.Dimension(119, 27));
         btnDeleteUser.setPreferredSize(new java.awt.Dimension(119, 27));
+        btnDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteUserActionPerformed(evt);
+            }
+        });
 
         btnRegisterUser1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegisterUser1.setText("Register User");
@@ -172,6 +177,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
         BDUtility.openForm(UpdateUser.class.getSimpleName(), new UpdateUser());
     }//GEN-LAST:event_btnUpdateUserActionPerformed
+
+    private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
+        BDUtility.openForm(DeleteUser.class.getSimpleName(), new DeleteUser());
+    }//GEN-LAST:event_btnDeleteUserActionPerformed
 
     /**
      * @param args the command line arguments
