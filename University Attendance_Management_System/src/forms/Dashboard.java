@@ -84,6 +84,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnUpdateUser.setText("Update User");
         btnUpdateUser.setMaximumSize(new java.awt.Dimension(119, 27));
         btnUpdateUser.setMinimumSize(new java.awt.Dimension(119, 27));
+        btnUpdateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateUserActionPerformed(evt);
+            }
+        });
 
         btnMarkAttendance.setBackground(new java.awt.Color(0, 191, 99));
         btnMarkAttendance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -163,6 +168,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void btnViewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewUserActionPerformed
         BDUtility.openForm(ViewUser.class.getSimpleName(), new ViewUser());
     }//GEN-LAST:event_btnViewUserActionPerformed
+
+    private void btnUpdateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateUserActionPerformed
+        BDUtility.openForm(UpdateUser.class.getSimpleName(), new UpdateUser());
+    }//GEN-LAST:event_btnUpdateUserActionPerformed
 
     /**
      * @param args the command line arguments
