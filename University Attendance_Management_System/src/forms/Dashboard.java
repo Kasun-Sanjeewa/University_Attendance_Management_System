@@ -98,6 +98,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnMarkAttendance.setBackground(new java.awt.Color(0, 191, 99));
         btnMarkAttendance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnMarkAttendance.setText("Mark Attendance");
+        btnMarkAttendance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarkAttendanceActionPerformed(evt);
+            }
+        });
 
         btnGenerateQR.setBackground(new java.awt.Color(0, 191, 99));
         btnGenerateQR.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -199,6 +204,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void btnViewQRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewQRSActionPerformed
        BDUtility.openForm(ViewQrs.class.getSimpleName(), new ViewQrs());
     }//GEN-LAST:event_btnViewQRSActionPerformed
+
+    private void btnMarkAttendanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarkAttendanceActionPerformed
+       BDUtility.openForm(MarkAttendance.class.getSimpleName(), new MarkAttendance());
+    }//GEN-LAST:event_btnMarkAttendanceActionPerformed
 
     /**
      * @param args the command line arguments
