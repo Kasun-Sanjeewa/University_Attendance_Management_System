@@ -281,7 +281,7 @@ public class GenerateQR extends javax.swing.JFrame {
         Gson gson = new Gson();
         String jsonData = gson.toJson(data);
         
-        out = QRCode.from(jsonData).withSize(322, 286).to(ImageType.PNG).stream();
+        out = QRCode.from(jsonData).withSize(350, 310).to(ImageType.PNG).stream();
 
         try {
             byte[] imageData = out.toByteArray();

@@ -4,6 +4,11 @@
  */
 package forms;
 
+import java.awt.Image;
+import java.io.File;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import utility.BDUtility;
 
 /**
@@ -34,15 +39,20 @@ public class ViewQrs extends javax.swing.JFrame {
         jInternalFrame1 = new javax.swing.JInternalFrame();
         lblImage = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblQrsList = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1100, 560));
         setMinimumSize(new java.awt.Dimension(1100, 560));
         setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Generate User QR");
+        jLabel1.setText("View Qr's");
 
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         btnExit.setText("X");
@@ -77,18 +87,20 @@ public class ViewQrs extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblQrsList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Email"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblQrsList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblQrsListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblQrsList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +111,7 @@ public class ViewQrs extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(433, 433, 433)
+                        .addGap(431, 431, 431)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -111,11 +123,14 @@ public class ViewQrs extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(73, 73, 73)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel1)))
+                .addGap(62, 62, 62)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -133,6 +148,29 @@ public class ViewQrs extends javax.swing.JFrame {
     private void lblImageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImageMouseClicked
 
     }//GEN-LAST:event_lblImageMouseClicked
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        DefaultTableModel model = (DefaultTableModel) tblQrsList.getModel();
+        File directory = new File(BDUtility.getPath("/qrCodes"));
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                model.addRow(new Object[] {file.getName(), file.length()});
+            }
+        }
+    }//GEN-LAST:event_formComponentShown
+
+    private void tblQrsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQrsListMouseClicked
+        int index = tblQrsList.getSelectedRow();
+        TableModel model = tblQrsList.getModel();
+        String name = model.getValueAt(index, 0).toString();
+        ImageIcon icon = new ImageIcon(BDUtility.getPath("qrCodes" + File.separator + name));
+        Image image = icon.getImage().getScaledInstance(350, 310, Image.SCALE_SMOOTH);
+        ImageIcon resizedIcon = new ImageIcon(image);
+
+        lblImage.setIcon(resizedIcon);
+    }//GEN-LAST:event_tblQrsListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -174,7 +212,7 @@ public class ViewQrs extends javax.swing.JFrame {
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblImage;
+    private javax.swing.JTable tblQrsList;
     // End of variables declaration//GEN-END:variables
 }
