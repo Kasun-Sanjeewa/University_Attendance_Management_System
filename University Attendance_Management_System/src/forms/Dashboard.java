@@ -102,10 +102,20 @@ public class Dashboard extends javax.swing.JFrame {
         btnGenerateQR.setBackground(new java.awt.Color(0, 191, 99));
         btnGenerateQR.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGenerateQR.setText("Generate QR");
+        btnGenerateQR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerateQRActionPerformed(evt);
+            }
+        });
 
         btnViewQRS.setBackground(new java.awt.Color(0, 191, 99));
         btnViewQRS.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnViewQRS.setText("View QRS");
+        btnViewQRS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewQRSActionPerformed(evt);
+            }
+        });
 
         btnViewAttendance.setBackground(new java.awt.Color(0, 191, 99));
         btnViewAttendance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -181,6 +191,14 @@ public class Dashboard extends javax.swing.JFrame {
     private void btnDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteUserActionPerformed
         BDUtility.openForm(DeleteUser.class.getSimpleName(), new DeleteUser());
     }//GEN-LAST:event_btnDeleteUserActionPerformed
+
+    private void btnGenerateQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerateQRActionPerformed
+        BDUtility.openForm(GenerateQR.class.getSimpleName(), new GenerateQR());
+    }//GEN-LAST:event_btnGenerateQRActionPerformed
+
+    private void btnViewQRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewQRSActionPerformed
+       BDUtility.openForm(ViewQrs.class.getSimpleName(), new ViewQrs());
+    }//GEN-LAST:event_btnViewQRSActionPerformed
 
     /**
      * @param args the command line arguments
