@@ -20,7 +20,7 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         BDUtility.setImage(this, "images/DBG.jpg", 1500, 900);
-        this.getRootPane().setBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.BLACK));
+        this.getRootPane().setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
     }
 
     /**
@@ -125,6 +125,11 @@ public class Dashboard extends javax.swing.JFrame {
         btnViewAttendance.setBackground(new java.awt.Color(0, 191, 99));
         btnViewAttendance.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnViewAttendance.setText("View Attendance");
+        btnViewAttendance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewAttendanceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -202,12 +207,16 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerateQRActionPerformed
 
     private void btnViewQRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewQRSActionPerformed
-       BDUtility.openForm(ViewQrs.class.getSimpleName(), new ViewQrs());
+        BDUtility.openForm(ViewQrs.class.getSimpleName(), new ViewQrs());
     }//GEN-LAST:event_btnViewQRSActionPerformed
 
     private void btnMarkAttendanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarkAttendanceActionPerformed
-       BDUtility.openForm(MarkAttendance.class.getSimpleName(), new MarkAttendance());
+        BDUtility.openForm(MarkAttendance.class.getSimpleName(), new MarkAttendance());
     }//GEN-LAST:event_btnMarkAttendanceActionPerformed
+
+    private void btnViewAttendanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAttendanceActionPerformed
+        BDUtility.openForm(ViewAttendance.class.getSimpleName(), new ViewAttendance());
+    }//GEN-LAST:event_btnViewAttendanceActionPerformed
 
     /**
      * @param args the command line arguments
