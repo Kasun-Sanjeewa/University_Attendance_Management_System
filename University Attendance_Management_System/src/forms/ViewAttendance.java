@@ -4,7 +4,20 @@
  */
 package forms;
 
+import dao.ConnectionProvider;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import utility.BDUtility;
+import java.util.List;
+import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +31,9 @@ public class ViewAttendance extends javax.swing.JFrame {
     public ViewAttendance() {
         initComponents();
         BDUtility.setImage(this, "images/RUBG.jpg", 1100, 550);
+
+        dateChooserFrom.setDateFormatString("yyy-MM-dd");
+        dateChooserTo.setDateFormatString("yyy-MM-dd");
     }
 
     /**
@@ -54,6 +70,11 @@ public class ViewAttendance extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(1100, 560));
         setMinimumSize(new java.awt.Dimension(1100, 560));
         setUndecorated(true);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Attendance Track");
@@ -79,11 +100,26 @@ public class ViewAttendance extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(userTable);
 
-        dateChooserTo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        dateChooserTo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        dateChooserTo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateChooserToPropertyChange(evt);
+            }
+        });
 
-        dateChooserFrom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        dateChooserFrom.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        dateChooserFrom.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateChooserFromPropertyChange(evt);
+            }
+        });
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -116,14 +152,29 @@ public class ViewAttendance extends javax.swing.JFrame {
         checkBoxContact.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkBoxContact.setForeground(new java.awt.Color(255, 255, 255));
         checkBoxContact.setText("Contact");
+        checkBoxContact.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkBoxContactItemStateChanged(evt);
+            }
+        });
 
         checkBoxState.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkBoxState.setForeground(new java.awt.Color(255, 255, 255));
         checkBoxState.setText("State");
+        checkBoxState.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkBoxStateItemStateChanged(evt);
+            }
+        });
 
         checkBoxAddress.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkBoxAddress.setForeground(new java.awt.Color(255, 255, 255));
         checkBoxAddress.setText("Address");
+        checkBoxAddress.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkBoxAddressItemStateChanged(evt);
+            }
+        });
         checkBoxAddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxAddressActionPerformed(evt);
@@ -133,6 +184,11 @@ public class ViewAttendance extends javax.swing.JFrame {
         checkBoxCountry.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkBoxCountry.setForeground(new java.awt.Color(255, 255, 255));
         checkBoxCountry.setText("Country");
+        checkBoxCountry.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkBoxCountryItemStateChanged(evt);
+            }
+        });
         checkBoxCountry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxCountryActionPerformed(evt);
@@ -142,6 +198,11 @@ public class ViewAttendance extends javax.swing.JFrame {
         checkBoxUniqueRegID.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         checkBoxUniqueRegID.setForeground(new java.awt.Color(255, 255, 255));
         checkBoxUniqueRegID.setText("Unique Reg ID");
+        checkBoxUniqueRegID.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkBoxUniqueRegIDItemStateChanged(evt);
+            }
+        });
         checkBoxUniqueRegID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxUniqueRegIDActionPerformed(evt);
@@ -152,6 +213,11 @@ public class ViewAttendance extends javax.swing.JFrame {
         btbResetFilters.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btbResetFilters.setForeground(new java.awt.Color(255, 255, 255));
         btbResetFilters.setText("Reset Filters");
+        btbResetFilters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btbResetFiltersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,6 +336,55 @@ public class ViewAttendance extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxCountryActionPerformed
 
+    private void btbResetFiltersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbResetFiltersActionPerformed
+        txtSearch.setText("");
+        dateChooserFrom.setDate(null);
+        dateChooserTo.setDate(null);
+        checkBoxContact.setSelected(false);
+        checkBoxAddress.setSelected(false);
+        checkBoxState.setSelected(false);
+        checkBoxCountry.setSelected(false);
+        checkBoxUniqueRegID.setSelected(false);
+
+        loadDataInTable();
+    }//GEN-LAST:event_btbResetFiltersActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        loadDataInTable();
+    }//GEN-LAST:event_formComponentShown
+
+    private void checkBoxContactItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkBoxContactItemStateChanged
+        loadDataInTable();
+    }//GEN-LAST:event_checkBoxContactItemStateChanged
+
+    private void checkBoxAddressItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkBoxAddressItemStateChanged
+        loadDataInTable();
+    }//GEN-LAST:event_checkBoxAddressItemStateChanged
+
+    private void checkBoxStateItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkBoxStateItemStateChanged
+       loadDataInTable();
+    }//GEN-LAST:event_checkBoxStateItemStateChanged
+
+    private void checkBoxCountryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkBoxCountryItemStateChanged
+       loadDataInTable();
+    }//GEN-LAST:event_checkBoxCountryItemStateChanged
+
+    private void checkBoxUniqueRegIDItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkBoxUniqueRegIDItemStateChanged
+        loadDataInTable();
+    }//GEN-LAST:event_checkBoxUniqueRegIDItemStateChanged
+
+    private void dateChooserFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateChooserFromPropertyChange
+        loadDataInTable();
+    }//GEN-LAST:event_dateChooserFromPropertyChange
+
+    private void dateChooserToPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateChooserToPropertyChange
+        loadDataInTable();
+    }//GEN-LAST:event_dateChooserToPropertyChange
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        loadDataInTable();
+    }//GEN-LAST:event_txtSearchKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -327,4 +442,181 @@ public class ViewAttendance extends javax.swing.JFrame {
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
+
+    private void loadDataInTable() {
+        // Define columns for the table
+        List<String> columns = new ArrayList<>(Arrays.asList(
+                "ID", "Name", "Gender", "Email", "Date", "CheckIn", "Checkout", "Work Duration"
+        ));
+
+        String searchText = txtSearch.getText();
+        Date fromDateFromCal = dateChooserFrom.getDate();
+        Date toDateFromCal = dateChooserTo.getDate();
+
+        LocalDate fromDate = (fromDateFromCal != null)
+                ? fromDateFromCal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                : null;
+        LocalDate toDate = (toDateFromCal != null)
+                ? toDateFromCal.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                : null;
+
+        Long daysBetween = (fromDate != null && toDate != null)
+                ? countWeekdays(fromDate, toDate)
+                : null;
+
+        // Include optional columns based on user input
+        Boolean contactIncluded = checkBoxContact.isSelected();
+        Boolean addressIncluded = checkBoxAddress.isSelected();
+        Boolean stateIncluded = checkBoxState.isSelected();
+        Boolean countryIncluded = checkBoxCountry.isSelected();
+        Boolean uniqueRegIdIncluded = checkBoxUniqueRegID.isSelected();
+
+        StringBuilder sqlQuery = new StringBuilder(
+                "SELECT ud.id, ud.name, ud.gender, ud.email, ua.date, ua.checkin, ua.checkout, ua.workduration"
+        );
+
+        if (contactIncluded) {
+            columns.add("Contact");
+            sqlQuery.append(", ud.contact");
+        }
+        if (addressIncluded) {
+            columns.add("Address");
+            sqlQuery.append(", ud.address");
+        }
+        if (stateIncluded) {
+            columns.add("State");
+            sqlQuery.append(", ud.state");
+        }
+        if (countryIncluded) {
+            columns.add("Country");
+            sqlQuery.append(", ud.country");
+        }
+        if (uniqueRegIdIncluded) {
+            columns.add("Unique ID");
+            sqlQuery.append(", ud.uniqueregid");
+        }
+
+        sqlQuery.append(" FROM userdetails AS ud INNER JOIN userattendance AS ua ON ud.id = ua.userid");
+
+        // Construct WHERE clause
+        boolean hasWhereClause = false;
+
+        if (searchText != null && !searchText.isEmpty()) {
+            sqlQuery.append(" WHERE (ud.name LIKE ? OR ud.email LIKE ?)");
+            hasWhereClause = true;
+        }
+        if (fromDate != null && toDate != null) {
+            sqlQuery.append(hasWhereClause ? " AND" : " WHERE");
+            sqlQuery.append(" ua.date BETWEEN ? AND ?");
+        } else if (fromDate != null) {
+            sqlQuery.append(hasWhereClause ? " AND" : " WHERE");
+            sqlQuery.append(" ua.date >= ?");
+        }
+
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(columns.toArray());
+        userTable.setModel(model);
+
+        try (Connection con = ConnectionProvider.getCon(); PreparedStatement pst = con.prepareStatement(sqlQuery.toString())) {
+
+            // Set parameters for prepared statement
+            int paramIndex = 1;
+            if (searchText != null && !searchText.isEmpty()) {
+                pst.setString(paramIndex++, "%" + searchText + "%");
+                pst.setString(paramIndex++, "%" + searchText + "%");
+            }
+            if (fromDate != null && toDate != null) {
+                pst.setDate(paramIndex++, java.sql.Date.valueOf(fromDate));
+                pst.setDate(paramIndex++, java.sql.Date.valueOf(toDate));
+            } else if (fromDate != null) {
+                pst.setDate(paramIndex++, java.sql.Date.valueOf(fromDate));
+            }
+
+            ResultSet rs = pst.executeQuery();
+
+            int presentCount = 0;
+            int absentCount = 0;
+            Set<String> emailList = new HashSet<>();
+
+            // Populate table and calculate present/absent counts
+            while (rs.next()) {
+                List<Object> row = new ArrayList<>();
+                row.add(rs.getString("id"));
+                row.add(rs.getString("name"));
+                row.add(rs.getString("gender"));
+                row.add(rs.getString("email"));
+                emailList.add(rs.getString("email"));
+                row.add(rs.getString("date"));
+                row.add(rs.getString("checkin"));
+                row.add(rs.getString("checkout"));
+                row.add(rs.getString("workduration"));
+
+                if (contactIncluded) {
+                    row.add(rs.getString("contact"));
+                }
+                if (addressIncluded) {
+                    row.add(rs.getString("address"));
+                }
+                if (stateIncluded) {
+                    row.add(rs.getString("state"));
+                }
+                if (countryIncluded) {
+                    row.add(rs.getString("country"));
+                }
+                if (uniqueRegIdIncluded) {
+                    row.add(rs.getString("uniqueregid"));
+                }
+
+                if (rs.getString("checkout") == null) {
+                    absentCount++;
+                } else {
+                    presentCount++;
+                }
+
+                model.addRow(row.toArray());
+            }
+
+            // Update present/absent labels
+            if (!emailList.isEmpty() && emailList.size() == 1) {
+                lblPresent.setVisible(true);
+                lblAbsent.setVisible(true);
+                presentLbl.setVisible(true);
+                absentLbl.setVisible(true);
+
+                lblPresent.setText(Integer.toString(presentCount));
+
+                if (daysBetween != null && daysBetween > 0) {
+                    absentCount = (int) Math.max(0, daysBetween - presentCount);
+                }
+
+                lblAbsent.setText(Integer.toString(absentCount));
+            } else {
+                lblPresent.setVisible(false);
+                lblAbsent.setVisible(false);
+                presentLbl.setVisible(false);
+                absentLbl.setVisible(false);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
+            ex.printStackTrace();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "An error occurred: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private Long countWeekdays(LocalDate start, LocalDate end) {
+        long count = 0;
+        LocalDate date = start;
+
+        while (date.isBefore(end) || date.equals(end)) {
+            if (!(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY)) {
+                count++;
+            }
+            date = date.plusDays(1);
+        }
+
+        return count;
+    }
 }
