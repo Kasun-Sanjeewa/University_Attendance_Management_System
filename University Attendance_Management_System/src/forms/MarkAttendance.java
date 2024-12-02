@@ -19,6 +19,7 @@ import dao.ConnectionProvider;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
@@ -132,9 +133,9 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
             .addGroup(layout.createSequentialGroup()
                 .addGap(648, 648, 648)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(704, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(805, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,11 +148,15 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
                                 .addComponent(jLabel4)
                                 .addGap(283, 283, 283)
                                 .addComponent(jLabel5))
-                            .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblCheckInCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(113, 113, 113))))
+                        .addGap(115, 115, 115))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(79, 79, 79))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(129, 129, 129))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +175,9 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
                         .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblCheckInCheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(webCamPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(169, 169, 169))
@@ -189,7 +194,7 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
         if (executor != null && !executor.isShutdown()) {
             executor.shutdown();
         }
-        
+
         this.dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
@@ -240,7 +245,7 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
     private javax.swing.JPanel webCamPanel;
     // End of variables declaration//GEN-END:variables
 
-    Map<String,String> resultMap = new HashMap<String,String>();
+    Map<String, String> resultMap = new HashMap<String, String>();
 
     @Override
     public void run() {
@@ -272,7 +277,7 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
                 if (result != null) {
                     String jsonString = result.getText();
                     Gson gson = new Gson();
-                    java.lang.reflect.Type type = new TypeToken<Map<String,String>>() {
+                    java.lang.reflect.Type type = new TypeToken<Map<String, String>>() {
                     }.getType();
                     resultMap = gson.fromJson(jsonString, type);
 
@@ -346,37 +351,66 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
             if (imageFile.exists()) {
                 try {
                     imagee = ImageIO.read(new File(imagePath));
-                    imagee = createCircularImage(imagee);
-                    ImageIcon icon = new ImageIcon(imagee);
+                    imagee = createCircularImage(imagee); 
+
+                   
+                    int screenWidth = 1500;
+                    int screenHeight = 900;
+
+                    int imageWidth = screenWidth / 6; 
+                    int imageHeight = imageWidth;    
+                    BufferedImage resizedImage = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D g2d = resizedImage.createGraphics();
+
+                    
+                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2d.drawImage(imagee, 0, 0, imageWidth, imageHeight, null);
+                    g2d.dispose();
+
+                    ImageIcon icon = new ImageIcon(resizedImage);
                     lblImage.setIcon(icon);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             } else {
+               
+                int screenWidth = 1500;
+                int screenHeight = 900;
 
-                BufferedImage imageeee = new BufferedImage(300, 300, BufferedImage.TYPE_INT_ARGB);
+                int imageWidth = screenWidth / 6; 
+                int imageHeight = imageWidth;   
+
+                int ovalSize = imageWidth - 50;  
+                int fontSize = imageWidth / 2;   
+
+                BufferedImage imageeee = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g2d = imageeee.createGraphics();
 
+       
                 g2d.setColor(Color.BLACK);
-                g2d.fillOval(25, 25, 250, 250);
+                g2d.fillOval((imageWidth - ovalSize) / 2, (imageHeight - ovalSize) / 2, ovalSize, ovalSize);
 
-                g2d.setFont(new Font("serif", Font.BOLD, 250));
+           
+                g2d.setFont(new Font("serif", Font.BOLD, fontSize));
                 g2d.setColor(Color.WHITE);
-                g2d.drawString(String.valueOf(resultMap.get("name").charAt(0)).toUpperCase(), 75, 225);
+                String text = String.valueOf(resultMap.get("name").toString().charAt(0)).toUpperCase();
+                FontMetrics metrics = g2d.getFontMetrics();
+                int textX = (imageWidth - metrics.stringWidth(text)) / 2;
+                int textY = (imageHeight - metrics.getHeight()) / 2 + metrics.getAscent();
+
+                g2d.drawString(text, textX, textY);
                 g2d.dispose();
 
-                ImageIcon imageIconn = new ImageIcon(imageeee);
-                lblImage.setIcon(imageIconn);
-
-                this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                this.pack();
-                this.setLocationRelativeTo(null);
-                this.setVisible(true);
+                ImageIcon icon = new ImageIcon(imageeee);
+                lblImage.setIcon(icon);
             }
+
 
             lblName.setHorizontalAlignment(JLabel.CENTER);
             lblName.setText(resultMap.get("name"));
+
+
             if (!checkInCheckout()) {
                 return;
             }
@@ -453,7 +487,7 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
 
         Connection connection = ConnectionProvider.getCon();
 
-        if(rs.next()) {
+        if (rs.next()) {
             String checkOutDateTime = rs.getString(4);
 
             if (checkOutDateTime != null) {
@@ -475,7 +509,7 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
                 long remainingMinutes = 3 - minutes;
                 long remainingSeconds = 60 - seconds;
 
-                popUpMessage = String.format("Your work duration is less than 5 minutes.\nYou can check out after: %d minutes and %d seconds", remainingMinutes, remainingSeconds);
+                popUpMessage = String.format("Your work duration is less than 3 minutes.\nYou can check out after: %d minutes and %d seconds", remainingMinutes, remainingSeconds);
                 popUpHeader = "Duration Warning";
                 showPopUpForCertainDuration(popUpMessage, popUpHeader, JOptionPane.WARNING_MESSAGE);
                 return false;
@@ -502,7 +536,7 @@ public class MarkAttendance extends javax.swing.JFrame implements Runnable, Thre
             preparedStatement.setString(3, currentDateTime.format(dateTimeFormatter));
             preparedStatement.executeUpdate();
 
-            popUpHeader = "Checkin";
+            popUpHeader = "CheckedIn";
             popUpMessage = "Check In at " + currentDateTime.format(dateTimeFormatter);
             color = Color.GREEN;
 

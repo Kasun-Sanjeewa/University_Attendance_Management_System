@@ -33,10 +33,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="648" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="704" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="805" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnExit" min="-2" pref="35" max="-2" attributes="0"/>
@@ -51,12 +51,18 @@
                               <EmptySpace min="-2" pref="283" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="lblImage" min="-2" pref="367" max="-2" attributes="0"/>
                           <Component id="lblCheckInCheckOut" min="-2" pref="365" max="-2" attributes="0"/>
-                          <Component id="lblName" min="-2" pref="365" max="-2" attributes="0"/>
                           <Component id="lblTime" min="-2" pref="365" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="115" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lblImage" min="-2" pref="367" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="lblName" min="-2" pref="365" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -80,9 +86,9 @@
                       <Component id="lblTime" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblImage" min="-2" pref="347" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="lblName" min="-2" pref="38" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblName" min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="lblCheckInCheckOut" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
                   <Component id="webCamPanel" min="-2" max="-2" attributes="0"/>
